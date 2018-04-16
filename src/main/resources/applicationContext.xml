@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <context:annotation-config />
+    <context:component-scan base-package="com.mytemplate.*" />
+    <bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/yanxj?useUnicode=true&amp;characterEncoding=UTF-8"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+        <property name="initialSize" value="1" />
+        <property name="maxActive" value="5" />
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 别名的设置是为了在mapper.xml文件中使用， -->
+        <property name="typeAliasesPackage" value="com.mytemplate.model" />
+        <property name="dataSource" ref="datasource" />
+        <!-- 如果Mapper.xml与Mapper.class在同一个包下且同名，spring扫描Mapper.class的同时会自动扫描同名的Mapper.xml并装配到Mapper.class。
+             如果Mapper.xml与Mapper.class不在同一个包下或者不同名，就必须使用配置mapperLocations指定mapper.xml的位置。
+             此时spring是通过识别mapper.xml中的 <mapper namespace="com.fan.mapper.UserMapper"> namespace的值来确定对应的Mapper.class的。 -->
+        <!--上述配置方式适用于eclipse，而在IDEA中配置时一定要配置如下属性，否则部署完成后在target中找不到mapper.xml(即mapper.class与mapper.xml映射失败)-->
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
+    </bean>
+
+    <!-- 代替了MapperFactoryBean创建映射器的方法，MapperScannerConfigurer将 会 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean-->
+    <!-- 可以自动将映射器注入到程序中，注意：因为代理创建在运行时环境中(Runtime,译者注) ,那么指定的映射器必须是一个接口,而 不是一个具体的实现类。 -->
+    <!-- 创建mybatis映射器，basePackage声明了映射器接口文件的包路径。如果只配置了一个datasource,则映射器默认会自动装配，否则，需要sqlSessionFactoryBeanName属性进行配置 -->
+    <!-- 上述SqlSessionFactoryBean的mapperLocations属性所说的Mapper.class，即为此处创建的映射器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.mytemplate.mapper"/>
+    </bean>
+</beans>

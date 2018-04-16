@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mytemplate.mapper.UserBasicMapper.UserBasicMapper">
+    <select id="getUser" parameterType="User" resultType="User">
+        SELECT * FROM USER WHERE NAME = #{name} AND
+        <if test="password!=null">
+            PASSWORD = #{password}
+        </if>
+
+    </select>
+    <select id="checkUser" parameterType="String" resultType="User">
+        SELECT * FROM USER WHERE NAME = #{name}
+    </select>
+    <select id="pageQuery" parameterType="Map" resultType="User">
+        SELECT * FROM USER
+        <where>
+            <if test="username!=null">
+                AND NAME LIKE concat('%',#{username},'%')
+            </if>
+            <if test="deptment!=null">
+                AND DEPTMENT LIKE concat('%',#{deptment},'%')
+            </if>
+            <if test="pageNumber!=null">
+                LIMIT #{pageNumber},#{pageSize}
+            </if>
+        </where>
+    </select>
+    <insert id="newUser" parameterType="User">
+        <if test="id!=null and name!=null and password!=null and deptment!=null">
+            INSERT into USER (ID,NAME,PASSWORD,DEPTMENT) VALUES (#{id},#{name},#{password},#{deptment})
+        </if>
+    </insert>
+</mapper>
