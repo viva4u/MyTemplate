@@ -6,9 +6,8 @@ import com.mytemplate.service.CategoryBasicService;
 import com.mytemplate.service.UserBasicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
@@ -86,9 +85,18 @@ public class MyController {
         categoryBasicService.addCategory(category);
     }
     @RequestMapping(value = "/register")
-    public void add(User user,Category category){
+    public String add(@ModelAttribute("user") User user, @ModelAttribute("category") Category category){
 
         this.newUser(user);
         this.newCate(category);
+        return "forward:/login";
+    }
+    @InitBinder("category")
+    public void initCateBinder(WebDataBinder binder){
+        binder.setFieldDefaultPrefix("Category.");
+    }
+    @InitBinder("user")
+    public void initUserBinder(WebDataBinder binder){
+        binder.setFieldDefaultPrefix("User.");
     }
 }

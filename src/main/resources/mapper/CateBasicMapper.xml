@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mytemplate.model.Category">
+<mapper namespace="com.mytemplate.mapper.CateBasicMapper.CateBasicMapper">
     <insert id="addCategory" parameterType="Category">
         <if test="cateName!=null">
             INSERT INTO CATEGORY (ID,CATENAME) VALUES (#{id},#{cateName})
