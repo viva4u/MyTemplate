@@ -5,6 +5,7 @@ import com.mytemplate.model.User;
 import com.mytemplate.service.UserBasicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,7 @@ public class UserBasicServiceImpl implements UserBasicService{
     public User checkUser(String name){
         return this.getUserBasicMapper().checkUser(name);
     }
+    @Transactional
     @Override
     public void newUser(User user){
         this.getUserBasicMapper().newUser(user);

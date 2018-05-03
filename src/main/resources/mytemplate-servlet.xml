@@ -5,6 +5,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
@@ -13,6 +14,7 @@
        http://www.springframework.org/schema/util/spring-util-3.0.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
       ">
 
     <!-- 开启注解模式驱动 -->
@@ -55,7 +57,12 @@
     <!-- 防止对请求进行响应时无法加载js/css/jpg/gif等静态资源 -->
     <mvc:default-servlet-handler/>
     <!-- 扫包 ：其中@Controller就是通过这个组件被扫描到，并注册为bean-->
-    <context:component-scan base-package="com.mytemplate.controller" />
+    <context:component-scan base-package="com.mytemplate.controller">
+        <!--在对controller的包进行扫描时，添加如下配置，就可以支持在Controller上面加事务-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--指定事务的管理器-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- 根据 Bean 中的 Spring MVC 注解对 Bean 进行加工处理，使这些 Bean 变成控制器并映射特定的 URL 请求 -->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 

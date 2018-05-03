@@ -97,4 +97,11 @@ window.onload=function () {
         // alert(oJson);
         postNewUser(url,params);
     });
+    testNav();
+}
+function testNav() {
+    $('#testNav').click(function () {
+        alert(2);
+        window.location.href=getPath()+'/testNav';
+    });
 }
