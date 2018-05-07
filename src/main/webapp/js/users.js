@@ -97,7 +97,10 @@ window.onload=function () {
         // alert(oJson);
         postNewUser(url,params);
     });
-    testNav();
+    // testNav();
+    $('#navigate').load(getPath()+"/templates/users.html");
+    $('#test').load(getPath()+"/templates/test.html");
+    $('#about').load(getPath()+"/templates/about.html");
 }
 function testNav() {
     $('#testNav').click(function () {
