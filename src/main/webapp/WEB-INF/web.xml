@@ -14,7 +14,7 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  <!--设置过滤器以解决中文乱码问题-->
+  <!--设置过滤器以解决query字段的中文乱码问题-->
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
