@@ -6,6 +6,7 @@ import com.mytemplate.service.CategoryBasicService;
 import com.mytemplate.service.UserBasicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +23,7 @@ public class MyController {
     @Autowired
     private CategoryBasicService categoryBasicService;
     @RequestMapping("/")
-    public String mainPage(){return "main";}
+    public String mainPage(){return "home";}
     @RequestMapping(value = "/login",method = RequestMethod.POST)
 //    public ModelAndView login(User user){
 //        System.out.println("#########2222########");
@@ -81,14 +82,19 @@ public class MyController {
     public void newUser(User user){
         userBasicService.newUser(user);
     }
-    public void newCate(Category category){
+    public void newCate(Category category) throws Exception{
         categoryBasicService.addCategory(category);
     }
+    @Transactional(rollbackFor = Exception.class)
     @RequestMapping(value = "/register")
-    public String add(@ModelAttribute("user") User user, @ModelAttribute("category") Category category){
-
-        this.newUser(user);
-        this.newCate(category);
+    public String add(@ModelAttribute("user") User user, @ModelAttribute("category") Category category) throws Exception{
+//        try {
+            this.newUser(user);
+            this.newCate(category);
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//            throw e;
+//        }
         return "forward:/login";
     }
     @InitBinder("category")
@@ -98,5 +104,9 @@ public class MyController {
     @InitBinder("user")
     public void initUserBinder(WebDataBinder binder){
         binder.setFieldDefaultPrefix("User.");
+    }
+    @RequestMapping(value = "/testNav")
+    public String testNav(){
+        return "testNav";
     }
 }
