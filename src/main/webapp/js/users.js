@@ -24,7 +24,9 @@ function postNewUser(URL,params) {
     form.submit(params);
     document.body.removeChild(form);
 }
-window.onload=function () {
+
+$(document).ready(function () {
+    alert('usersstart');
     $('#table').bootstrapTable({
         method:'post',
         contentType: "application/x-www-form-urlencoded",//必须要有！！！！
@@ -75,6 +77,7 @@ window.onload=function () {
                 }
             }]
     });
+    alert('usersend');
     $('#search_btn').click(function () {
         $('#table').bootstrapTable('refresh',{url:getPath()+'/users'})
     });
@@ -97,14 +100,4 @@ window.onload=function () {
         // alert(oJson);
         postNewUser(url,params);
     });
-    // testNav();
-    $('#navigate').load(getPath()+"/templates/users.html");
-    $('#test').load(getPath()+"/templates/test.html");
-    $('#about').load(getPath()+"/templates/about.html");
-}
-function testNav() {
-    $('#testNav').click(function () {
-        alert(2);
-        window.location.href=getPath()+'/testNav';
-    });
-}
+});

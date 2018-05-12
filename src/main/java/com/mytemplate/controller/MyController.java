@@ -23,7 +23,7 @@ public class MyController {
     @Autowired
     private CategoryBasicService categoryBasicService;
     @RequestMapping("/")
-    public String mainPage(){return "home";}
+    public String mainPage(){return "main";}
     @RequestMapping(value = "/login",method = RequestMethod.POST)
 //    public ModelAndView login(User user){
 //        System.out.println("#########2222########");
@@ -108,5 +108,10 @@ public class MyController {
     @RequestMapping(value = "/testNav")
     public String testNav(){
         return "testNav";
+    }
+    @RequestMapping(value = "/navigate")
+    public String navigate(){
+        System.out.println("已经进入navigate");
+        return "users";
     }
 }
