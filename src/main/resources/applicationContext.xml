@@ -31,7 +31,7 @@
         <!--上述配置方式适用于eclipse，而在IDEA中配置时一定要配置如下属性，否则部署完成后在target中找不到mapper.xml(即mapper.class与mapper.xml映射失败)-->
         <property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
     </bean>
-
+    <!--this is dev2-->
     <!-- 代替了MapperFactoryBean创建映射器的方法，MapperScannerConfigurer将 会 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean-->
     <!-- 可以自动将映射器注入到程序中，注意：因为代理创建在运行时环境中(Runtime,译者注) ,那么指定的映射器必须是一个接口,而 不是一个具体的实现类。 -->
     <!-- 创建mybatis映射器，basePackage声明了映射器接口文件的包路径。如果只配置了一个datasource,则映射器默认会自动装配，否则，需要sqlSessionFactoryBeanName属性进行配置 -->
